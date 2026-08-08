@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const types = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html' };
 createServer(async (request, response) => {
-  const requested = request.url === '/' || request.url === '/dashboard' || request.url === '/day/12'
+  const path = new URL(request.url, 'http://localhost').pathname;
+  const requested = path === '/' || path === '/dashboard' || path === '/day/12'
     ? 'index.html' : request.url.slice(1);
   try {
     const file = await readFile(join(root, requested));
@@ -15,4 +16,4 @@ createServer(async (request, response) => {
   } catch {
     response.writeHead(404); response.end('Not found');
   }
-}).listen(4174, '127.0.0.1');
+}).listen(4175, '127.0.0.1');
